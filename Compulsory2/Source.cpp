@@ -196,6 +196,7 @@ void game()
 	else if (playerSum < 21)
 	{
 		std::cout << "H - hit  |  S - stand";
+		std::cin >> ans;
 	}
 
 
