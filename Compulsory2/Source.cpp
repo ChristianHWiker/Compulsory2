@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <vector>
 #include <time.h>
 #include <cstdlib>
 #include <ctime>
@@ -73,17 +72,22 @@ void login()
 
 }
 
+int playerCurrency = 100;
 int playerHand[5];
 int playerSum;
 int playerHandSize;
-bool playerStand = false;
+bool playerTurn = true;
+bool playerWin = false;
 
 
-
+int dealerCurrency = 100;
 int dealerHand[5];
 int dealerSum;
 int dealerHandSize;
-bool dealerStand = false;
+bool dealerTurn = false;
+bool dealerWin = false;
+
+char input{};
 
 
 void playerCard()
@@ -112,10 +116,6 @@ void dealerCard()
 		dealerHandSize++;
 	}
 
-	else
-	{
-		dealerStand = true;
-	}
 }
 
 void printSum()
@@ -162,7 +162,113 @@ void printHand()
 
 void game()
 {
+
+	/*playerSum = 0;
+	playerHandSize = 0;
+
+	dealerSum = 0;
+	dealerHandSize = 0;
+
+
+	system("cls");
+	std::cout << "Welcome to Blackjack!\n";
+	system("pause");
+	system("cls");
+
+	playerCard();
+	playerCard();
+
+	dealerCard();
+	dealerCard();
+
+	printHand();
+	printSum();*/
+
+	while (playerTurn == true)
+	{
+		playerSum = 0;
+		dealerSum = 0;
+
+		if (playerSum == 21)
+		{
+			std::cout << "Player has blackjack and wins the hand!";
+			break;
+
+		}
+		else if (playerSum < 21)
+		{
+			std::cout << "H - hit  |  S - stand";
+			std::cin >> input;
+			if (input == tolower('H'))
+			{
+				system("cls");
+				playerCard();
+				printHand();
+				printSum();
+				
+			}
+			else if (input == tolower('S'))
+			{
+				system("cls");
+				playerTurn = false;
+				dealerTurn = true;
+		
+			}
+		}
+
+		
+
+
+		while (dealerTurn == true)
+		{
+
+			if (dealerSum == 21)
+			{
+				std::cout << "Dealer has blackjack and wins the hand!";
+				break;
+			}
+			else if (dealerSum < 17)
+			{
+				dealerCard();
+				printHand();
+				printSum();
+				dealerTurn = false;
+			
+			}
+			else if (dealerSum >= 17)
+			{
+				break;
+			}
+
+		}
+
+		if (playerSum > dealerSum)
+		{
+			std::cout << "You win the hand!";
+			break;
+		}
+		else if (dealerSum > playerSum)
+		{
+			std::cout << "Dealer wins the hand!";
+			break;
+		}
+
+	}
+}
+
+int main()
+{
 	srand(time(0));
+
+	while (userResult == false || passResult == false)
+	{
+		login();
+
+		if (userResult == true || passResult == true)
+		{
+			break;
+		}
+	}
 
 	playerSum = 0;
 	playerHandSize = 0;
@@ -184,47 +290,10 @@ void game()
 
 	printHand();
 	printSum();
-
-	while (playerStand == false || dealerStand == false)
-	{
 	
-	if (playerSum == 21)
+	while (playerWin == false || dealerWin == false)
 	{
-		std::cout << "Player has blackjack and wins the hand!";
-
-	}
-	else if (playerSum < 21)
-	{
-		std::cout << "H - hit  |  S - stand";
-		std::cin >> ans;
-	}
-
-
-
-	if (dealerSum == 21)
-	{
-		std::cout << "Dealer has blackjack, dealer wins!";
-	}
-	else if (dealerSum < 17)
-	{
-		dealerCard();
-	}
-
-	}
-}
-
-int main()
-{
-	while (userResult == false || passResult == false)
-	{
-		login();
-
-		if (userResult == true || passResult == true)
-		{
-			break;
-		}
+		game();
 	}
 	
-	
-	game();
 }
