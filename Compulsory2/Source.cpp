@@ -7,7 +7,7 @@ void login() //Copied my login from mock exam and added extra strings for userna
 	{
 		const std::string username = "admin";
 		const std::string password = "password";
-		char user_array[5]{};
+		char user_array[6]{};
 		char pass_array[10]{};
 		char input_array[10]{};
 
@@ -18,23 +18,19 @@ void login() //Copied my login from mock exam and added extra strings for userna
 		std::cout << "Enter username: ";
 		getline(std::cin, userInput);
 
-		strcpy_s(input_array, password.c_str());
-
-		strcpy_s(input_array, userInput.c_str());
+		strcpy_s(user_array, userInput.c_str());
 
 		std::cout << "Enter password: ";
 		getline(std::cin, passInput);
 
-		strcpy_s(input_array, password.c_str());
-
-		strcpy_s(input_array, passInput.c_str());
+		strcpy_s(pass_array, passInput.c_str());
 
 		//Converts the password string and input string to char arrays.
 		//Credit: https://www.geeksforgeeks.org/convert-string-char-array-cpp/
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (tolower(input_array[i]) == username[i]) //Compares input array with username.
+			if (tolower(user_array[i]) == username[i]) //Compares user array with username.
 			{
 				userResult = true;
 			}
@@ -47,7 +43,7 @@ void login() //Copied my login from mock exam and added extra strings for userna
 
 		for (int i = 0; i < 9; i++)
 		{
-			if (tolower(input_array[i]) == password[i]) //Compares input array with password.
+			if (tolower(pass_array[i]) == password[i]) //Compares password array with password.
 			{
 				passResult = true;
 			}
@@ -59,17 +55,18 @@ void login() //Copied my login from mock exam and added extra strings for userna
 		}
 
 
-		if (userResult == true && passResult == true) {
+		if (userResult == true && passResult == true) 
+		{
 			return;
 		}
-		else {
-		failCount++; //Failed attempt is added here.
+		else 
+		{
+			failCount++; //Failed attempt is added here.
 		}
 	}
 	std::cout << "Too many failed attempts, closing" << std::endl;
 	exit(0); //Exits the program after the while loop breaks from failed attempts.
 }
-
 
 
 
