@@ -1,9 +1,9 @@
 #include "declarations.h"
 
-void login()
+void login() //Copied my login from mock exam and added extra strings for username.
 {
 	int failCount{};
-	while (failCount < 5) 
+	while (failCount < 5) //Counts the wrong attempts to login up to 5.
 	{
 		const std::string username = "admin";
 		const std::string password = "password";
@@ -63,11 +63,11 @@ void login()
 			return;
 		}
 		else {
-		failCount++;
+		failCount++; //Failed attempt is added here.
 		}
 	}
 	std::cout << "Too many failed attempts, closing" << std::endl;
-	exit(0);
+	exit(0); //Exits the program after the while loop breaks from failed attempts.
 }
 
 
@@ -75,21 +75,21 @@ void login()
 
 void playerCard()
 {
-		playerHand.push_back(1 + (rand() % 10));
+		playerHand.push_back(1 + (rand() % 10)); //Stores a random number from 1-10 in the vector used for cards in the player's hands.
 }
 
 void dealerCard()
 {
-		dealerHand.push_back(1 + (rand() % 10));
+		dealerHand.push_back(1 + (rand() % 10)); //Same as above but for the AI. These functions allow me to simply write player/dealerCard(): wherever a card should be added to either's hand in the main game function.
 }
 
 void printSum()
 {	
-	std::cout << "Your current hand sum: " << playerSum() << std::endl;
+	std::cout << "Your current hand sum: " << playerSum() << std::endl; //Prints the calculated sums of the cards in the player/dealer's hand.
 	std::cout << "Dealer's hand sum: " << dealerSum() << std::endl;
 }
 
-void printHand()
+void printHand() //This function prints the dealer and player's hands by looping through the vector and finding the numerical values while adding a line to divide them for ease of eyes.
 {
 	std::cout << "Your hand: ";
 
@@ -119,48 +119,49 @@ void game()
 	stopPlaying = false;
 
 	playerTurn = true;
-	dealerTurn = false;
+	dealerTurn = false; //Resets the variable to its original state (line 166-122).
 
-	system("cls");
+	system("cls"); //Clears login screen.
 	std::cout << "Welcome to Blackjack!\n";
 	
 	std::cout << "Your capital: " << playerCurrency << std::endl;
-	std::cout << "House capital: " << dealerCurrency << std::endl;
+	std::cout << "House capital: " << dealerCurrency << std::endl; //Shows the player and dealer's start capitals and asks for the amount the player wants to bet. (line 127-130)
 	std::cout << "Enter bet amount: ";
 	std::cin >> betInput;
-	std::cin.ignore(10000, '\n');
+	std::cin.ignore(10000, '\n'); //Clears cin to prevent bugs.
 	std::cin.clear();
 
 	if (betInput > dealerCurrency || betInput > playerCurrency)
 	{
-		std::cout << "Invalid amount";
+		std::cout << "Invalid amount"; //Prevents player from betting more than the player's or dealer's capitals. (line 134-140)
 		std::cout << std::endl;
 		system("pause");
 		return;
 	}
 
-	betWin = betInput * 2;
+	betWin = betInput * 2; //The amount of currency the winner wins.
 
-	playerCurrency -= betInput;
+	playerCurrency -= betInput; //Removes the bet amount from the loser.
 	dealerCurrency -= betInput;
 
 	system("cls");
 
-	//playerCard();
+	//playerCard(); Can be uncommented for 2 starting cards for either party.
 	playerCard();
 
 	//dealerCard();
 	dealerCard();
 
-	printHand();
+	printHand(); //Calls both these functions as they are explained above.
 	printSum();
 
-	if (stopPlaying == true)
+	if (stopPlaying == true) //stopPlaying bool that's set to true whenever a win condition is met and an if condition that restarts the game.
 	{
 		game();
 	}
 
-	while (playerTurn == true)
+	while (playerTurn == true) //Loop  that checks for win conditions and adds currency to the winner. Sleep is added so things don't move too fast (especially the AI turn).
+								// The winner is decided by functions that calculate the sums of both parties' hands. (lines 163-302).
 	{
 
 
@@ -185,14 +186,14 @@ void game()
 		}
 		else if (playerSum() < 21)
 		{
-			std::cout << "H - hit  |  S - stand" << std::endl;
+			std::cout << "H - hit  |  S - stand" << std::endl; //Asks player if they want to hit or stand.
 			std::cin >> input;
 			if (input == tolower('H'))
 			{
 				system("cls");
 				playerCard();
 				bool changed = false;
-				while (playerHand.back() == 1 && changed == false)
+				while (playerHand.back() == 1 && changed == false) //Allows the player to decide if an ace (1) should have the numerical value of 1 or 11 with the help of a bool to break the loop.
 				{
 					std::cout << "Make the ace 1 or 11?: ";
 					std::cin >> aceInput;
@@ -250,7 +251,7 @@ void game()
 			stopPlaying = true;
 			break;
 		}
-		else if (dealerSum() < 17)
+		else if (dealerSum() < 17) //The dealer will add another card to their hand while their sum is below 17 in accordance with the game rules.
 		{
 			Sleep(1000);
 			system("cls");
@@ -264,7 +265,6 @@ void game()
 		else if (dealerSum() >= 17)
 		{
 			dealerTurn = false;
-			//break;
 		}
 
 	}
@@ -303,9 +303,9 @@ void game()
 
 int main()
 {
-	srand(time(0));
-	login();
-	while (playerCurrency > 0 && dealerCurrency > 0)
+	srand(time(0)); //Seeds the random number generator.
+	login(); //Calls login function as explained above.
+	while (playerCurrency > 0 && dealerCurrency > 0) //Keeps the game running until someone runs out of currency.
 	{
 		game();
 	}
@@ -315,7 +315,7 @@ int main()
 int playerSum() 
 {
 	int sum{};
-	for (int i{}; i < playerHand.size(); i++) 
+	for (int i{}; i < playerHand.size(); i++) //Calculates the sum of the player's hand.
 	{
 		sum += playerHand[i];
 	}
@@ -325,7 +325,7 @@ int playerSum()
 int dealerSum()
 {
 	int sum{};
-	for (int i{}; i < dealerHand.size(); i++)
+	for (int i{}; i < dealerHand.size(); i++) //Calculates the sum of the dealer's hand.
 	{
 		sum += dealerHand[i];
 	}
